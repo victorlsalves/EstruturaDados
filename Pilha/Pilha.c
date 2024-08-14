@@ -1,9 +1,6 @@
+//politica da pilha: insere no final e remove no final
 #include <stdio.h>
 #include <stdlib.h>
-
-void inserir_final();
-void remover_final();
-
 typedef struct
 {
    int codigo;
@@ -13,27 +10,33 @@ typedef struct
 typedef struct
 {
     dados d;
-    no *prox;
     no *ant;
+    no *prox;
 } no;
 
-
-
-int main(){
-    
-
+void inserir()
+{
 
 }
 
-void inserir_final(pilha *p, int valor){
-    if(p->topo + 1 == p->capacidade){
-        printf("a pilha esta cheia");
-        return;
-    } else if(){
 
-    }
-}
 
-void remover_final(){
 
+
+
+
+
+
+
+
+
+
+
+
+
+int main()
+{
+    no *pilha = NULL;
+
+    return 0;
 }

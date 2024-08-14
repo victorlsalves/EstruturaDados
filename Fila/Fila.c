@@ -1,52 +1,56 @@
-//politica da fila: insere no final e remove do comeco
+//politica da fila: insere no final e remove do comeco (FIFO)
 #include <stdio.h>
 #include <stdlib.h>
+typedef struct
+{
+    char nome[50];
+    struct no *ant;
+    struct no *prox;
+} no;
 
-void add();
-void rem();
-void show();
-void liberar();
+void inserir(no **f, char *nome)
+{
+    no *aux = malloc(sizeof(no));
+    if(*f== NULL){
+        aux->ant = NULL;
+        aux->prox = NULL;
+        strcpy(aux->nome, nome);
+        *f = aux;
+    } else {
+        no *temp = *f;
+        while (temp->prox == NULL)
+        {
+            
+        }
+        
+    }
+}
 
-typedef struct {
-        int valor;
-        struct no *prox;
-    } no;
 
-/*struct lista{
-    struct no *inicio;
-    struct no *fim;
-}*/
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 int main(){
-    no *fila = malloc(sizeof(no));
+    no *fila = NULL;
 
-    
-}
+    strcpy(fila->nome, "Ronald Reagan");
 
-void add(no **fila, int valor){
-    if(fila->prox == NULL){
-        fila.valor = valor;
-    } else if(fila->prox != NULL){
-                while(aux->prox != NULL){
-                aux = aux->prox;
-        }
-    }
-}
 
-void rem(no **fila){
-    if(*fila == NULL){
-        return;
-    no *aux = *fila;
-    *fila = (*fila)->prox;
-    free(*fila);
-}
 
-void show(no **fila){
 
-}
 
-void liberar(no **fila){
-    while(*fila->prox != NULL){
-        free
-    }
+
+
+    return 0;
 }
