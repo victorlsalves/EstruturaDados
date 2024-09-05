@@ -81,7 +81,7 @@ void remover(no **l, int codigo)
             (*l) = aux->prox;
     }        
     if(aux->prox != NULL)
-        aux->prox->ant = aux-> ant;
+        aux->prox->ant = aux->ant;
     free(aux);
 }
 void listar_todos(no **l)
