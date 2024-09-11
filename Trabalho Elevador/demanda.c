@@ -100,3 +100,8 @@ void listar_demandas(no **l)
     if (count == 0)
         printf("\nA lista de demandas está vazia!\n");
 }
+
+void ordenar_demandas()
+{
+    
+}

@@ -27,4 +27,6 @@ void remover();
 
 void listar_demandas();
 
+void ordenar_demandas();
+
 #endif

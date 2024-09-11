@@ -10,7 +10,7 @@
                 "${file}",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe",
-                "${fileDirname}/demanda.c"
+                //"${fileDirname}/demanda.c"
             ],
             "options": {
                 "cwd": "${fileDirname}"
