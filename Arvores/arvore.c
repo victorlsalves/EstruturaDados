@@ -100,9 +100,9 @@ noa *a_remover(noa *raiz, int valor)
         // caso 2: nó com dois filhos
         // encontra o sucessor (menor valor na subárvore à direita)
         noa *temp = raiz->dir;
-        while(temp->esq != NULL){
+        while(temp->esq != NULL)
             temp = temp->esq;
-        }
+        
         // copia o valor do sucessor para este nó
         raiz->valor = temp->valor;
 
