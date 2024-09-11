@@ -171,6 +171,11 @@ int main()
 
     // Remover o nó com valor 50
     raiz = a_remover(raiz, 50);
+    raiz = a_remover(raiz, 20);
+    raiz = a_remover(raiz, 90);
+    raiz = a_remover(raiz, 80);
+    raiz = a_inserir_rr(raiz, 26);
+    raiz = a_inserir_rr(raiz, 24);
 
     printf("Após remover 50:\n");
     printf("pre-ordem: ");
