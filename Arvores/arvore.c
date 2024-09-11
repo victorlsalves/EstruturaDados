@@ -70,14 +70,6 @@ noa *a_buscar(noa *raiz, int valor)
     return raiz;
 }
 
-// função para encontrar o menor valor na subárvore
-noa *a_minimo(noa *raiz)
-{
-    while(raiz->esq != NULL)
-        raiz = raiz->esq;
-    return raiz;
-}
-
 // função para remover um nó da árvore de busca binária
 noa *a_remover(noa *raiz, int valor)
 {
