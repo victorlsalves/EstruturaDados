@@ -227,18 +227,20 @@ void alterar_andar_atual(no_elevador **elevador){
 
 void atribuir_nova_demanda(no_elevador **elevador, no **demanda, int tempo){
     no_elevador *aux_elev = *elevador;
-    no *aux_deman = *demanda;
+    
     while (aux_elev != NULL)
     {
+        no *aux_deman = *demanda;
         while (aux_deman != NULL)
         {
             if(aux_elev->e.andar_atual == aux_deman->d.andar_origem){
-                if(tempo >= aux_deman->d.tempo_recebido && aux_deman->d.status == aux_elev->e.status){
+                if(tempo >= aux_deman->d.tempo_recebido){
                     inserir_final(&(aux_elev->e.lista_demandas), aux_deman->d);
                 }
             }
             aux_deman = aux_deman->prox;
         }
+    
         aux_elev = aux_elev->prox;
     }
 }
