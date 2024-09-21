@@ -17,7 +17,7 @@ int main()
     //listar_demandas(&l); // CARALHOOOO FUNCIONOU KKKKKKKKKKKKKKKKKKKKKKKK QUE FELICIDADE :)))))))))))))
     //ordenar_demandas(&l, 1); // insere em ordem crescente
     //ordenar_demandas(&l, 0); // insere em ordem decrescente
-    //listar_demandas(&l);
+    listar_demandas(&l);
 
     preencher_dados_elevador(&e, string_demandas);
 

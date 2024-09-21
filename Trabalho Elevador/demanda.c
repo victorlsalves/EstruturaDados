@@ -103,7 +103,7 @@ void ordenar_demandas(no **l, int crescente) // crescente eh uma variavel que, s
         aux = *l;
         while (aux->prox != NULL)
         {
-            if ((crescente && aux->d.andar_origem > aux->prox->d.andar_origem) || (!crescente && aux->d.andar_origem < aux->prox->d.andar_origem)) // verifica se a ordem está errada, comparando o andar de origem
+            if ((crescente && aux->d.andar_destino > aux->prox->d.andar_destino) || (!crescente && aux->d.andar_destino < aux->prox->d.andar_destino)) // verifica se a ordem está errada, comparando o andar de destino
             {
                 demanda temp = aux->d; // troca as demandas
                 aux->d = aux->prox->d;

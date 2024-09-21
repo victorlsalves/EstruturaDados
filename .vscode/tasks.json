@@ -11,7 +11,7 @@
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe",
                 "${fileDirname}/demanda.c",
-                "${fileDirname}/elevador.c",
+                //"${fileDirname}/elevador.c",
                 "${fileDirname}/utils.c",
             ],
             "options": {
