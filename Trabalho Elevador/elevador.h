@@ -11,6 +11,8 @@ typedef struct elevador
     int tempo_corrido;
     int andar_atual;
     int andares_max;
+    int qtd_andares_percorridos;
+    int tempo_deslocamento;
 } elevador;
 
 typedef struct no_elevador //aqui eh a lista de elevadores, assim como a struct de demandas tem um nó que serve pra ser a lista de demandas
