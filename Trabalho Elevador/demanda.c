@@ -50,7 +50,7 @@ void alterar(no **l, int pessoa, demanda d)
     aux->d = d;
 }
 
-void remover(no **l, int andar_atual)
+void remover(no **l, int andar_atual, int tempo)
 {
 
     no *aux;
@@ -61,16 +61,12 @@ void remover(no **l, int andar_atual)
     // }
     while (aux != NULL)
     {
-        if(aux->d.andar_destino == andar_atual)
-        {
-            if(aux == NULL){
-                printf("\nAndar não encontrado!\n");
-            return;
-            }    
+        if(aux->d.andar_origem == andar_atual && tempo >= aux->d.tempo_recebido)
+        { 
             if(aux->ant != NULL){
                 aux->ant->prox = aux->prox;
             } else {
-                    (*l) = aux->prox;
+                (*l) = aux->prox;
             }        
             if(aux->prox != NULL)
                 aux->prox->ant = aux->ant;
@@ -79,7 +75,41 @@ void remover(no **l, int andar_atual)
 
             free(aux_remover);
             aux = aux->prox;
-        } else 
+        } 
+        else 
+        {
+            aux = aux->prox;
+        }    
+    }   
+}
+
+void remover_destino(no **l, int andar_destino)
+{
+
+    no *aux;
+    aux = *l;
+    // if(aux == NULL){
+    //     printf("\nNão há demandas na lista para remover!\n");
+    //     return;
+    // }
+    while (aux != NULL)
+    {
+        if(aux->d.andar_destino == andar_destino)
+        { 
+            if(aux->ant != NULL){
+                aux->ant->prox = aux->prox;
+            } else {
+                (*l) = aux->prox;
+            }        
+            if(aux->prox != NULL)
+                aux->prox->ant = aux->ant;
+
+            no *aux_remover = aux;
+
+            free(aux_remover);
+            aux = aux->prox;
+        } 
+        else 
         {
             aux = aux->prox;
         }    
@@ -96,15 +126,14 @@ void listar_demandas(no **l)
         aux = aux->prox;
         count++;
     }
-    if (count == 0)
-        printf("\nA lista de demandas está vazia!\n");
+    // if (count == 0)
+    //     printf("\nA lista de demandas está vazia!\n");
 }
 
 void ordenar_demandas(no **l, int crescente) // crescente eh uma variavel que, se for 1, faz a funcao ordenar em ordem crescente e, se for 0, a funcao ordena em ordem decrescente
 {
     if (*l == NULL)
     {
-        printf("\nA lista de demandas está vazia!\n");
         return;
     }
     int trocou; // variavel de controle: se for 0, n trocou nd e o laco para, se for 1, trocou e o laco continua
