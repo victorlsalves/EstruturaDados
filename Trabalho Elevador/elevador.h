@@ -30,4 +30,6 @@ void preencher_dados_elevador();
 
 void mostrar_elevadores();
 
+void movimentar_elevador();
+
 #endif
