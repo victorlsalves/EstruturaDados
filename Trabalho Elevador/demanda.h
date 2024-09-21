@@ -32,4 +32,6 @@ void ordenar_demandas();
 
 void preencher_novas_demandas();
 
+void remover_destino();
+
 #endif
