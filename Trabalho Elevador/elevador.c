@@ -41,19 +41,34 @@ void criar_elevador(no_elevador **elevadores, elevador *novo_elevador)
 
 void inserir_demanda(elevador **e, demanda d)
 {
-    no *temp = (*e)->lista_demandas;
-    while (temp && temp->prox) //so sai qnd der null, ou seja, qnd achar o último nó
-    {
-        temp = temp->prox;
+    // Aloca memória para o novo nó de demanda
+    no *nova_demanda = malloc(sizeof(no));
+    if (nova_demanda == NULL) {
+        printf("Erro ao alocar memória para nova demanda.\n");
+        return;
     }
-    elevador *aux = malloc(sizeof(elevador));
-    aux->lista_demandas->d = d;
-    aux->lista_demandas->prox = NULL;
-    aux->lista_demandas->ant = temp;
-    if((*e)->lista_demandas) // caso o elevador tenha alguma demanda
-        (*e)->lista_demandas->prox = aux->lista_demandas->ant;
-    else
-        *e = aux; // caso elevador esteja sem demanda
+
+    // Preenche os dados da nova demanda
+    nova_demanda->d = d;
+    nova_demanda->prox = NULL;
+    nova_demanda->ant = NULL;
+
+    // Verifica se o elevador já tem uma lista de demandas
+    if ((*e)->lista_demandas == NULL) {
+        // Caso a lista de demandas esteja vazia, adiciona a nova demanda como a primeira
+        (*e)->lista_demandas = nova_demanda;
+    } else {
+        // Caso a lista já tenha demandas, percorre até o último nó
+        no *temp = (*e)->lista_demandas;
+
+        while (temp->prox != NULL) { // Percorre até encontrar o último nó
+            temp = temp->prox;
+        }
+
+        // Adiciona a nova demanda no final da lista
+        temp->prox = nova_demanda;
+        nova_demanda->ant = temp;
+    }
 }
 
 int retornaNumAndarMaxElevador(char string[])
