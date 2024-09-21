@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include "utils.h"
+#include "demanda.h"
 
 typedef struct demanda
 {
