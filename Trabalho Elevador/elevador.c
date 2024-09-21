@@ -5,6 +5,25 @@
 #include "demanda.h"
 #include "utils.h"
 #include "elevador.h"
+#include <unistd.h>
+
+// typedef struct elevador
+// {
+//     int num_elev;
+//     char status;
+//     no *lista_demandas;
+//     int tempo_corrido;
+//     int andar_atual;
+//     int andares_max;
+// } elevador;
+
+// //aqui eh a lista de elevadores, assim como a struct de demandas tem um nó que serve pra ser a lista de demandas
+// typedef struct no_elevador 
+// {
+//     elevador e;
+//     struct no_elevador *ant;
+//     struct no_elevador *prox;
+// } no_elevador;
 
 void criar_elevador(no_elevador **elevadores, elevador novo_elevador)
 {
@@ -12,7 +31,6 @@ void criar_elevador(no_elevador **elevadores, elevador novo_elevador)
     aux = malloc(sizeof(no_elevador));
 
     aux->e = novo_elevador;
-    // aux->e.lista_demandas = 
     // aux->e.num_elev = novo_elevador->num_elev;
     // aux->e.status = novo_elevador->status;
     // aux->e.lista_demandas = novo_elevador->lista_demandas;
@@ -62,28 +80,7 @@ void inserir_demanda(elevador **e, demanda d, int flag_demanda)
     }
 }
 
-void mostrar_elevadores(no_elevador *elev){
-    no_elevador *aux_elev = elev;
 
-    while (aux_elev != NULL)
-    {
-        printf("\n");
-        printf("Elevador E%d\n", aux_elev->e.num_elev);
-        printf("Status: %c\n", aux_elev->e.status);
-        printf("Andar atual: %d\n", aux_elev->e.andar_atual);
-        printf("Andares máximos: %d\n" ,aux_elev->e.andares_max);
-        no *aux_dem = aux_elev->e.lista_demandas;
-        while (aux_dem != NULL)
-        {
-            printf("\nAndar destino: %d",aux_dem->d.andar_destino);
-            aux_dem = aux_dem->prox;
-        }
-        
-        aux_elev = aux_elev->prox;
-        printf("\n");
-    }
-    
-}
 
 int retornaNumAndarMaxElevador(char string[])
 {
@@ -175,5 +172,86 @@ void preencher_dados_elevador(no_elevador **e, char string[])
             criar_elevador(e, *novo_elev); //funcaoInserir/CriarElevador(listaElevador(elevador), novo_elev(elevador));
             
         }
+    }
+}
+
+void mostrar_elevadores(no_elevador *elev, int tempo){
+    no_elevador *aux_elev = elev;
+
+    while (aux_elev != NULL)
+    {
+        printf("\nTempo atual: %d\n", tempo);
+        printf("Elevador E%d\n", aux_elev->e.num_elev);
+        printf("Status: %c\n", aux_elev->e.status);
+        printf("Andar atual: %d\n", aux_elev->e.andar_atual);
+        no *aux_dem = aux_elev->e.lista_demandas;
+        while (aux_dem != NULL)
+        {
+            printf("\nDemanda | Andar destino: %d",aux_dem->d.andar_destino);
+            aux_dem = aux_dem->prox;
+        }
+        
+        aux_elev = aux_elev->prox;
+        printf("\n");
+    }
+    
+}
+
+void alterar_andar_atual(no_elevador **elevador){
+    no_elevador *aux = *elevador;
+    while (aux != NULL)
+    {
+        if(aux->e.status == 'S'){
+
+            if(aux->e.andar_atual < aux->e.andares_max){ //se andar atual for menor que andar máximo
+                aux->e.andar_atual++; //subindo para o andar máximo
+            }
+            else if(aux->e.andar_atual == aux->e.andares_max){ //se o andar atual for igual ao andar máximo, altera o status para D e decrementa o andar atual
+                aux->e.status = 'D';
+                aux->e.andar_atual--;
+            }
+        }
+        else if(aux->e.status == 'D'){
+            if(aux->e.andar_atual > 0){ //verifica se o andar atual for maior que térreo (0)
+                aux->e.andar_atual--; //descendo
+            }
+            else if(aux->e.andar_atual == 0){ //se chegar no térreo ele muda o status pra subindo e incrementa o andar atual
+                aux->e.status = 'S';
+                aux->e.andar_atual++;
+            }
+        }
+
+        aux = aux->prox;
+    }
+}
+
+void atribuir_nova_demanda(no_elevador **elevador, no **demanda, int tempo){
+    no_elevador *aux_elev = *elevador;
+    no *aux_deman = *demanda;
+    while (aux_elev != NULL)
+    {
+        while (aux_deman != NULL)
+        {
+            if(aux_elev->e.andar_atual == aux_deman->d.andar_origem){
+                if(tempo >= aux_deman->d.tempo_recebido && aux_deman->d.status == aux_elev->e.status){
+                    inserir_final(&(aux_elev->e.lista_demandas), aux_deman->d);
+                }
+            }
+            aux_deman = aux_deman->prox;
+        }
+        aux_elev = aux_elev->prox;
+    }
+}
+
+void movimentar_elevador(no_elevador *elevador, no *demandas){
+    int tempo = 1;
+    
+    while (1)
+    {
+        atribuir_nova_demanda(&elevador, &demandas, tempo);
+        mostrar_elevadores(elevador, tempo);
+        alterar_andar_atual(&elevador);
+        sleep(1);
+        tempo++;
     }
 }
