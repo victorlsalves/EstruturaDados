@@ -12,7 +12,7 @@
                 "${fileDirname}\\${fileBasenameNoExtension}.exe",
                 "${fileDirname}/demanda.c",
                 "${fileDirname}/elevador.c",
-                "${fileDirname}/utils.c"
+                "${fileDirname}/utils.c",
             ],
             "options": {
                 "cwd": "${fileDirname}"

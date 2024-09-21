@@ -7,9 +7,6 @@
 
 int main()
 {
-
-    
-    
     elevador *e = NULL; // lista onde ficam os elevadores
     no *l = NULL; // lista onde ficam as demandas
     char string_demandas[500];
@@ -23,7 +20,6 @@ int main()
 
     preencher_dados_elevador(&e, string_demandas);
 
-    
 
     return 0;
 }
