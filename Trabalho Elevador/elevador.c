@@ -4,43 +4,51 @@
 #include <string.h>
 #include "demanda.h"
 #include "utils.h"
+#include "elevador.h"
 
-typedef struct elevador
-{
-    int num_elev;
-    char status;
-    no *lista_demandas;
-    int tempo_corrido;
-    int andar_atual;
-    int andares_max;
-} elevador;
+// typedef struct elevador
+// {
+//     int num_elev;
+//     char status;
+//     no *lista_demandas;
+//     int tempo_corrido;
+//     int andar_atual;
+//     int andares_max;
+// } elevador;
 
-typedef struct no_elevador //aqui eh a lista de elevadores, assim como a struct de demandas tem um nó que serve pra ser a lista de demandas
-{
-    elevador e;
-    struct no_elevador *ant;
-    struct no_elevador *prox;
-} no_elevador;
+// typedef struct no_elevador //aqui eh a lista de elevadores, assim como a struct de demandas tem um nó que serve pra ser a lista de demandas
+// {
+//     elevador e;
+//     struct no_elevador *ant;
+//     struct no_elevador *prox;
+// } no_elevador;
 
-void criar_elevador(no_elevador **elevadores, elevador *novo_elevador)
+void criar_elevador(no_elevador **elevadores, elevador novo_elevador)
 {
     no_elevador *aux = *elevadores;
     aux = malloc(sizeof(no_elevador));
-    aux->e.num_elev = novo_elevador->num_elev;
-    aux->e.status = novo_elevador->status;
-    aux->e.lista_demandas = novo_elevador->lista_demandas;
-    aux->e.tempo_corrido = novo_elevador->tempo_corrido;
-    aux->e.andar_atual = novo_elevador->andar_atual;
-    aux->e.andares_max = novo_elevador->andares_max;
+
+    aux->e = novo_elevador;
+    // aux->e.lista_demandas = 
+    // aux->e.num_elev = novo_elevador->num_elev;
+    // aux->e.status = novo_elevador->status;
+    // aux->e.lista_demandas = novo_elevador->lista_demandas;
+    // aux->e.tempo_corrido = novo_elevador->tempo_corrido;
+    // aux->e.andar_atual = novo_elevador->andar_atual;
+    // aux->e.andares_max = novo_elevador->andares_max;
     aux->ant = NULL;
     aux->prox = *elevadores;
-        if(*elevadores)
-            (*elevadores)->ant = aux; // caso não seja vazia
+    if(*elevadores)
+        (*elevadores)->ant = aux; // caso não seja vazia
     *elevadores = aux;
 }
 
-void inserir_demanda(elevador **e, demanda d)
+void inserir_demanda(elevador **e, demanda d, int flag_demanda)
 {
+    if(flag_demanda == 0){
+        (*e)->lista_demandas = NULL;
+    }
+    
     // Aloca memória para o novo nó de demanda
     no *nova_demanda = malloc(sizeof(no));
     if (nova_demanda == NULL) {
@@ -71,6 +79,29 @@ void inserir_demanda(elevador **e, demanda d)
     }
 }
 
+void mostrar_elevadores(no_elevador *elev){
+    no_elevador *aux_elev = elev;
+
+    while (aux_elev != NULL)
+    {
+        printf("\n");
+        printf("Elevador E%d\n", aux_elev->e.num_elev);
+        printf("Status: %c\n", aux_elev->e.status);
+        printf("Andar atual: %d\n", aux_elev->e.andar_atual);
+        printf("Andares máximos: %d\n" ,aux_elev->e.andares_max);
+        no *aux_dem = aux_elev->e.lista_demandas;
+        while (aux_dem != NULL)
+        {
+            printf("\nAndar destino: %d",aux_dem->d.andar_destino);
+            aux_dem = aux_dem->prox;
+        }
+        
+        aux_elev = aux_elev->prox;
+        printf("\n");
+    }
+    
+}
+
 int retornaNumAndarMaxElevador(char string[])
 {
     int qtd_max;
@@ -91,10 +122,20 @@ int retornaNumAndarMaxElevador(char string[])
 void preencher_dados_elevador(no_elevador **e, char string[])
 {
     elevador *novo_elev;
+    demanda *nova_demanda;
+
+    //no *demandas = NULL;
+    //demanda *nova_demanda;
     for(int i = 0; string[i] != '\0'; i++)
     {
         if(string[i] == 'E'){
+            int flag_demanda = 0;
             novo_elev = malloc(sizeof(elevador));
+            nova_demanda = malloc(sizeof(demanda));
+            //nova_demanda = malloc(sizeof(demanda));
+            //demanda demanda_nova[10];
+            //int qta_demandas = 0;
+
             for(int j = i; string[j] != ' '; j++)
             {
                 if(isdigit(string[j]) && string[j-1] == 'E')
@@ -122,36 +163,34 @@ void preencher_dados_elevador(no_elevador **e, char string[])
                 {
                     //preencher demanda de andar >= 10
                     //novo_elev->demandas = retornaDoisNumerosInteiro(string[j], string[j+1]);
-                    demanda nova_demanda;
-                    nova_demanda.andar_destino = retornaDoisNumerosInteiro(string[j], string[j+1]);
-                    inserir_demanda(&novo_elev, nova_demanda);
+                    //demanda nova_demanda;
+                    nova_demanda->andar_destino = retornaDoisNumerosInteiro(string[j], string[j+1]);
+                    inserir_demanda(&novo_elev, *nova_demanda, flag_demanda);
+                    flag_demanda++;
+                    //inserir_final(&demandas, *nova_demanda);
                 }
                 else if(isdigit(string[j]) && !isdigit(string[j-1]) && (string[j+1] == ',' || string[j+1] == ' ')){
                     //preencher demandar de andar < 10
                     //novo_elev->demandas = retornaUmNumeroInteiro(string[j]);
-                    demanda nova_demanda;
-                    nova_demanda.andar_destino = retornaDoisNumerosInteiro(string[j], string[j+1]);
-                    inserir_demanda(&novo_elev, nova_demanda);
+                    //demanda nova_demanda;
+                    nova_demanda->andar_destino = retornaDoisNumerosInteiro(string[j], string[j+1]);
+                    inserir_demanda(&novo_elev, *nova_demanda, flag_demanda);
+                    flag_demanda++;
+
+                    //inserir_final(&demandas, *nova_demanda);
                 }
                 else if(string[j] == 'T' && (string[j+1] == ',' || string[j+1] == ' ')){
                     //retorna o térreo = 0;
                     //novo_elev->demandas = 0;
-                    demanda nova_demanda;
-                    nova_demanda.andar_destino = 0;
-                    inserir_demanda(&novo_elev, nova_demanda);
+                    //demanda nova_demanda;
+                    nova_demanda->andar_destino = 0;
+                    inserir_demanda(&novo_elev, *nova_demanda, flag_demanda);
+                    flag_demanda++;
+                    //inserir_final(&demandas, *nova_demanda);
                 }
             }
-            criar_elevador(&(*e), novo_elev); //funcaoInserir/CriarElevador(listaElevador(elevador), novo_elev(elevador));
-            /*
-            printf("---------------\n");
-            printf("Número do andar: %d\n", elev->num_elev);
-            printf("Número do andares máximo: %d\n", elev->andares_max);
-            printf("Andar atual: %d\n", elev->andar_atual);
-            printf("Status do elevador: %c\n", elev->status);
-            //inserir uma por uma as demandas, e não de uma vez.
-            printf("Demanda: %d\n", elev->demandas);
-            free(elev);
-            */
+            criar_elevador(e, *novo_elev); //funcaoInserir/CriarElevador(listaElevador(elevador), novo_elev(elevador));
+            
         }
     }
 }
