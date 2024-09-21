@@ -4,8 +4,9 @@
 
 typedef struct demanda
 {
-    int tempo;
-    char pessoa[50];
+    int tempo_recebido;
+    int n_pessoa;
+    char status;
     int andar_origem;
     int andar_destino;
 } demanda;
@@ -28,5 +29,7 @@ void remover();
 void listar_demandas();
 
 void ordenar_demandas();
+
+void preencher_novas_demandas();
 
 #endif
