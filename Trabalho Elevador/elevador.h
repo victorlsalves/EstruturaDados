@@ -28,4 +28,6 @@ void listar_demandas_elevador();
 
 void preencher_dados_elevador();
 
+void mostrar_elevadores();
+
 #endif
