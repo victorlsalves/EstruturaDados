@@ -4,22 +4,6 @@
 #include "utils.h"
 #include "demanda.h"
 
-typedef struct demanda
-{
-    int n_pessoa;
-    int tempo_recebido;
-    char status;
-    int andar_origem;
-    int andar_destino;
-} demanda;
-
-typedef struct no
-{
-    demanda d;
-    struct no *ant;
-    struct no *prox;
-} no;
-
 void inserir_comeco(no **l, demanda d)
 {
     no *aux = malloc(sizeof(no));
