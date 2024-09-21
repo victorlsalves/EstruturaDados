@@ -50,30 +50,42 @@ void alterar(no **l, int pessoa, demanda d)
     aux->d = d;
 }
 
-void remover(no **l, int pessoa)
+void remover(no **l, int andar_atual)
 {
-    no *aux = *l;
-    if(aux == NULL){
-        printf("\nNão há demandas na lista para remover!\n");
-        return;
-    }    
-    while (aux != NULL && aux->d.n_pessoa != pessoa)
+
+    no *aux;
+    aux = *l;
+    // if(aux == NULL){
+    //     printf("\nNão há demandas na lista para remover!\n");
+    //     return;
+    // }
+    while (aux != NULL)
     {
-        aux = aux->prox;
-    }
-    if(aux == NULL){
-        printf("\nPessoa não encontrada!\n");
-        return;
-    }    
-    if(aux->ant != NULL){
-        aux->ant->prox = aux->prox;
-    } else {
-            (*l) = aux->prox;
-    }        
-    if(aux->prox != NULL)
-        aux->prox->ant = aux->ant;
-    free(aux);
+        if(aux->d.andar_destino == andar_atual)
+        {
+            if(aux == NULL){
+                printf("\nAndar não encontrado!\n");
+            return;
+            }    
+            if(aux->ant != NULL){
+                aux->ant->prox = aux->prox;
+            } else {
+                    (*l) = aux->prox;
+            }        
+            if(aux->prox != NULL)
+                aux->prox->ant = aux->ant;
+
+            no *aux_remover = aux;
+
+            free(aux_remover);
+            aux = aux->prox;
+        } else 
+        {
+            aux = aux->prox;
+        }    
+    }   
 }
+
 void listar_demandas(no **l)
 {
     int count = 0;
