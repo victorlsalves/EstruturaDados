@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int retornaDoisNumerosInteiro(char num1, char num2){
+int retornaDoisNumerosInteiro(char num1, char num2)
+{
     int num;
     char numero[3];
     numero[0] = num1;
@@ -11,7 +12,8 @@ int retornaDoisNumerosInteiro(char num1, char num2){
     return num;
 }
 
-int retornaUmNumeroInteiro(char num1){
+int retornaUmNumeroInteiro(char num1)
+{
     int num;
     char numero[2];
     numero[0] = num1;

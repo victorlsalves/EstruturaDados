@@ -11,7 +11,7 @@ typedef struct demanda
     int andar_destino;
 } demanda;
 
-typedef struct no
+typedef struct no //lista de demandas
 {
     demanda d;
     struct no *ant;

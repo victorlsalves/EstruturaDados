@@ -34,4 +34,6 @@ void mostrar_elevadores();
 
 void movimentar_elevador();
 
+void retornar_resumo_deslocamento();
+
 #endif

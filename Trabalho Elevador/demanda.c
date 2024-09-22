@@ -52,13 +52,8 @@ void alterar(no **l, int pessoa, demanda d)
 
 void remover(no **l, int andar_atual, int tempo)
 {
-
     no *aux;
     aux = *l;
-    // if(aux == NULL){
-    //     printf("\nNão há demandas na lista para remover!\n");
-    //     return;
-    // }
     while (aux != NULL)
     {
         if(aux->d.andar_origem == andar_atual && tempo >= aux->d.tempo_recebido)
@@ -85,13 +80,8 @@ void remover(no **l, int andar_atual, int tempo)
 
 void remover_destino(no **l, int andar_destino)
 {
-
     no *aux;
     aux = *l;
-    // if(aux == NULL){
-    //     printf("\nNão há demandas na lista para remover!\n");
-    //     return;
-    // }
     while (aux != NULL)
     {
         if(aux->d.andar_destino == andar_destino)
@@ -126,17 +116,13 @@ void listar_demandas(no **l)
         aux = aux->prox;
         count++;
     }
-    // if (count == 0)
-    //     printf("\nA lista de demandas está vazia!\n");
 }
 
-void ordenar_demandas(no **l, int crescente) // crescente eh uma variavel que, se for 1, faz a funcao ordenar em ordem crescente e, se for 0, a funcao ordena em ordem decrescente
+void ordenar_demandas(no **l, int crescente) //crescente eh uma variavel que, se for 1, faz a funcao ordenar em ordem crescente e, se for 0, a funcao ordena em ordem decrescente
 {
     if (*l == NULL)
-    {
         return;
-    }
-    int trocou; // variavel de controle: se for 0, n trocou nd e o laco para, se for 1, trocou e o laco continua
+    int trocou; //variavel de controle: se for 0, n trocou nd e o laco para, se for 1, trocou e o laco continua
     no *aux;
     do
     {
@@ -144,9 +130,9 @@ void ordenar_demandas(no **l, int crescente) // crescente eh uma variavel que, s
         aux = *l;
         while (aux->prox != NULL)
         {
-            if ((crescente && aux->d.andar_destino > aux->prox->d.andar_destino) || (!crescente && aux->d.andar_destino < aux->prox->d.andar_destino)) // verifica se a ordem está errada, comparando o andar de destino
+            if ((crescente && aux->d.andar_destino > aux->prox->d.andar_destino) || (!crescente && aux->d.andar_destino < aux->prox->d.andar_destino)) //verifica se a ordem está errada, comparando o andar de destino
             {
-                demanda temp = aux->d; // troca as demandas
+                demanda temp = aux->d; //troca as demandas
                 aux->d = aux->prox->d;
                 aux->prox->d = temp;
                 trocou = 1;
