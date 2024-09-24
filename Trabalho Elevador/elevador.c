@@ -242,6 +242,12 @@ void atribuir_nova_demanda(no_elevador **elevador, no **demanda, int tempo) // a
 void desembarque_andar_destino(no_elevador **elevador, int tempo)
 {
     no_elevador *aux_elev = *elevador;
+    while (tempo == 0 && aux_elev != NULL)
+    {
+        inserir_deslocamento(&aux_elev, tempo, aux_elev->e.andar_atual);
+        aux_elev = aux_elev->prox;
+    }
+    
     while (aux_elev != NULL)
     {
         no *aux_deman_elev = aux_elev->e.lista_demandas;
