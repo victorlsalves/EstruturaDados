@@ -9,6 +9,7 @@
 
 void criar_elevador(no_elevador **elevadores, elevador novo_elevador)
 {
+    novo_elevador.deslocamentos = NULL;
     no_elevador *aux = *elevadores;
     aux = malloc(sizeof(no_elevador));
     aux->e = novo_elevador;
@@ -122,13 +123,31 @@ void preencher_dados_elevador(no_elevador **e, char string[])
     }
 }
 
+//novo
+void inserir_deslocamento(no_elevador **elevador, int tempo, int andar_desembarque){
+    struct deslocamento *novo_deslocamento = malloc(sizeof(struct deslocamento));    
+    novo_deslocamento->tempo_demanda = tempo;
+    novo_deslocamento->andar_desembarque = andar_desembarque;
+    novo_deslocamento->prox = NULL;
+    if((*elevador)->e.deslocamentos == NULL){
+        (*elevador)->e.deslocamentos = novo_deslocamento;
+    }else{
+        struct deslocamento *deslocamentos = (*elevador)->e.deslocamentos;
+        while (deslocamentos->prox != NULL)
+        {
+            deslocamentos = deslocamentos->prox;
+        }
+        deslocamentos->prox = novo_deslocamento;
+    }
+}
+
 void mostrar_elevadores(no_elevador *elev, int tempo)
 {
     no_elevador *aux_elev = elev;
     while (aux_elev != NULL)
     {
-        printf("\nTempo atual: %d\n", tempo);
-        printf("Elevador E%d\n", aux_elev->e.num_elev);
+        printf("\nElevador E%d\n", aux_elev->e.num_elev);
+        printf("Tempo atual: %d\n", tempo);
         printf("Status: %c\n", aux_elev->e.status);
         printf("Andar atual: %d\n", aux_elev->e.andar_atual);
         printf("Quantidade de andares percorridos: %d\n", aux_elev->e.qtd_andares_percorridos);
@@ -139,6 +158,14 @@ void mostrar_elevadores(no_elevador *elev, int tempo)
         {
             printf("[%d] ",aux_dem->d.andar_destino);
             aux_dem = aux_dem->prox;
+        }
+        //novo
+        struct deslocamento *aux_desloc = aux_elev->e.deslocamentos;
+        printf("\nDeslocamento: ");
+        while (aux_desloc != NULL)
+        {
+            printf("%d(%d) -> ",aux_desloc->andar_desembarque, aux_desloc->tempo_demanda);
+            aux_desloc = aux_desloc->prox;
         }
         aux_elev = aux_elev->prox;
         printf("\n");
@@ -189,6 +216,7 @@ void alterar_andar_atual(no_elevador **elevador, no *demandas)
     }
 }
 
+
 void atribuir_nova_demanda(no_elevador **elevador, no **demanda, int tempo) // atribui novas demandas da lista geral à lista de demandas dos elevadores e as remove da lista geral
 {
     no_elevador *aux_elev = *elevador;
@@ -221,6 +249,8 @@ void desembarque_andar_destino(no_elevador **elevador, int tempo)
         {
             if(aux_elev->e.andar_atual == aux_deman_elev->d.andar_destino) // compara andar atual com os andares de destino da lista de demandas do elevador
             {
+                //novo
+                inserir_deslocamento(&aux_elev, tempo, aux_deman_elev->d.andar_destino);
                 remover_destino(&(aux_elev->e.lista_demandas), aux_deman_elev->d.andar_destino); // pessoa desembarca no andar e ele eh removido da lista de demandas do elevador
             }
             aux_deman_elev = aux_deman_elev->prox;
@@ -246,23 +276,21 @@ int contador_demandas_elev(no_elevador *elev) // retorna a quantidade de demanda
     return contador;
 }
 
-void retornar_resumo_deslocamento(no_elevador *e)
+void retornar_resumo_deslocamento(no_elevador *e, int tempo)
 {
     no_elevador *aux = e;
-    int tempo_total = 0;
     int deslocamento_total = 0;
     while (aux != NULL)
     {
-        tempo_total += aux->e.tempo_deslocamento;
         deslocamento_total += aux->e.qtd_andares_percorridos;
         aux = aux->prox;
     }
-    printf("\n{Tempo total dos elevadores: [%d] - Quantidade de andares percorridos pelos elevadores: [%d]}\n", tempo_total, deslocamento_total);
+    printf("\n{Tempo de execução: [%d] - Quantidade de andares percorridos pelos elevadores: [%d]}\n", tempo, deslocamento_total);
 }
 
 void movimentar_elevador(no_elevador *elevador, no *demandas)
 {
-    int tempo = 1;
+    int tempo = 0;
     while (demandas || contador_demandas_elev(elevador))
     {
         listar_demandas(&demandas);
@@ -273,5 +301,6 @@ void movimentar_elevador(no_elevador *elevador, no *demandas)
         sleep(1);
         tempo++;
     }
-    retornar_resumo_deslocamento(elevador);
+
+    retornar_resumo_deslocamento(elevador, tempo);
 }
