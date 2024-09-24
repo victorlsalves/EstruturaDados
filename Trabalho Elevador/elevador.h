@@ -3,11 +3,19 @@
 #ifndef ELEVADOR_H
 #define ELEVADOR_H
 
+//novo
+struct deslocamento{
+    int andar_desembarque;
+    int tempo_demanda;
+    struct deslocamento *prox;
+};
+
 typedef struct elevador
 {
     int num_elev;
     char status;
     no *lista_demandas;
+    struct deslocamento *deslocamentos; //novo
     int tempo_corrido;
     int andar_atual;
     int andares_max;
