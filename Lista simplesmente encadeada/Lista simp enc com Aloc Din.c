@@ -24,9 +24,8 @@ int inserir_comeco(lista *l, int valor)
 {
     if(l->tamanho == l->capacidade)
         return printf("\nA lista está cheia!\n");
-    for (int i = l->tamanho - 1; i >= 0; i--){
+    for (int i = l->tamanho - 1; i >= 0; i--)
         *(l->dados + i + 1) = *(l->dados + i);
-    }
     *(l->dados) = valor;
     l->tamanho++;
 }
@@ -43,10 +42,10 @@ int buscar(lista *l, int valor)
 {
     if(l->tamanho == 0)
         return printf("\nNão há elemento na lista, busca cancelada.\n");
-    for (int i = 0; i < l->tamanho; i++){
-        if(*(l->dados + i) == valor){
+    for (int i = 0; i < l->tamanho; i++)
+    {
+        if(*(l->dados + i) == valor)
             return *(l->dados + i);
-        }
     }
     printf("\nO valor não está na lista!\n");
     return -1;
@@ -57,8 +56,10 @@ int alterar(lista *l, int valor, int novo_valor)
     int count = 0;
     if (l->tamanho == 0)
         return printf("\nA lista está vazia! Não há elemento para alterar.\n");
-    for (int i = 0; i < l->tamanho; i++){
-        if(*(l->dados + i) == valor){
+    for (int i = 0; i < l->tamanho; i++)
+    {
+        if(*(l->dados + i) == valor)
+        {
             *(l->dados + i) = novo_valor;
             count++;
         }
@@ -72,13 +73,14 @@ int remover(lista *l, int valor)
     int count = 0;
     if(l->tamanho == 0)
         return printf("\nNão há elemento na lista para remover!\n");
-    for (int i = l->tamanho - 1; i >= 0; i--){
-        if(*(l->dados + i) == valor){
-            for (int j = i; j < l->tamanho - 1; j++){
+    for (int i = l->tamanho - 1; i >= 0; i--)
+    {
+        if(*(l->dados + i) == valor)
+        {
+            for (int j = i; j < l->tamanho - 1; j++)
                 *(l->dados + j) = *(l->dados + j + 1);
-            }
-        count++;
-        l->tamanho--;    
+            count++;
+            l->tamanho--;    
         }
     }
     if (count == 0)
@@ -89,9 +91,8 @@ int listar_todos(lista *l)
 {
     if(l->tamanho == 0)
         return printf("A lista está vazia!\n");
-    for (int i = 0; i < l->tamanho; i++){
+    for (int i = 0; i < l->tamanho; i++)
         printf("[ %d ] \t", *(l->dados + i));
-    }
     printf("\n");
 }
 
